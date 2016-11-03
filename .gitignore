@@ -1,0 +1,6 @@
+.vagrant
+/vendor
+node_modules
+bower_components
+provision.log
+*.swp
