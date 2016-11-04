@@ -1,10 +1,10 @@
 #!/bin/bash
 
 DIR="$( cd "$( dirname "$0" )" && pwd )"
-SITE_DOMAIN="site.dev"
+SITE_DOMAIN="yii2template.lo.com"
 PROVISION_DIR="/var/www/$SITE_DOMAIN"
 
-echo "Provision dir: $DIR"
+echo "--- Provision dir: $DIR ---"
 
 # colorize
 sed -i 's/#force_color_prompt=yes/force_color_prompt=yes/g' /home/vagrant/.bashrc
@@ -18,30 +18,27 @@ start=`date +%s`
 
 export DEBIAN_FRONTEND=noninteractive
 
-# For latest nginx 1.8
-apt-get purge -y nginx nginx-common
+# For latest nginx
 add-apt-repository -y ppa:nginx/stable
 
-# For latest php 5.5
-#add-apt-repository ppa:ondrej/php5-5.6
-
 # For latest php 5.7
-#sudo add-apt-repository -y ppa:ondrej/mysql-5.7
+sudo add-apt-repository -y ppa:ondrej/mysql-5.7
 
-# For latest redis
-#add-apt-repository ppa:chris-lea/redis-server
-
+echo "--- Update system ---"
 apt-get update
 
-# Set mysql root password
+echo -e "--- Install MySQL and settings ---"
+
 debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
 debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
-
 apt-get -y install mysql-server
 
-cp -v "$PROVISION_DIR/provision/mysql/my.cnf" /etc/mysql/my.cnf
-#systemctl restart mysql
+echo "--- Update mysql config ---"
+#cp -v "$PROVISION_DIR/provision/mysql/my.cnf" /etc/mysql/my.cnf
+echo "--- Restart mysql deamon ---"
+systemctl restart mysql
 
+echo "--- Install system packages ---"
 apt-get -q -y  -o Dpkg::Options::=--force-confnew  install \
     curl \
     htop \
@@ -68,16 +65,12 @@ apt-get -q -y  -o Dpkg::Options::=--force-confnew  install \
     links \
     tree \
 
-# Setup xdebug
-pecl install xdebug
+echo "--- Setup xdebug ---"
+pecl install xdebug >> /dev/null 2>&1
 
+echo "--- Conpy php settings ---"
 cp -v $PROVISION_DIR/provision/php/7.0/extensions/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
-#php5enmod xdebug
-# Setup xdebug
-
 cp -v $PROVISION_DIR/provision/php/7.0/extensions/mcrypt.ini /etc/php/7.0/mods-available/mcrypt.ini
-#php5enmod mcrypt
-
 cp -v $PROVISION_DIR/provision/php/cli.php.ini /etc/php/7.0/cli/php.ini
 cp -v $PROVISION_DIR/provision/php/php.ini /etc/php/7.0/fpm/php.ini
 cp -v $PROVISION_DIR/provision/php/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
@@ -100,37 +93,24 @@ systemctl restart nginx
 mysql -uroot -proot -e "drop database if exists site; create database site; GRANT ALL ON site.* TO 'vagrant'@'%' IDENTIFIED BY 'vagrant'; FLUSH PRIVILEGES;"
 mysql -uroot -proot -e "drop database if exists site_test; create database site_test; GRANT ALL ON site_test.* TO 'vagrant'@'%' IDENTIFIED BY 'vagrant'; FLUSH PRIVILEGES;"
 
-# Install nodejs
-#curl -sL https://deb.nodesource.com/setup_0.12 | sudo bash -
-#apt-get -q -y  -o Dpkg::Options::=--force-confnew  install \
-#    nodejs
-
-# Install composer globaly
+echo "-- Install composer globaly --"
 curl -sS https://getcomposer.org/installer | php
 mv composer.phar /usr/local/bin/composer
 
-# Add github access token to composer config
+echo "--- Add github access token to composer config ---"
 if [ -f $PROVISION_DIR/provision/composer/set-github-oauth-token.sh ]
 then
     $PROVISION_DIR/provision/composer/set-github-oauth-token.sh
 fi
 
-# Check versions
+echo "--- Check versions ---"
 echo `lsb_release -a`
 echo `nginx -v`
 echo `mysql --version`
 echo `php -v`
-#echo `node -v`
-#echo `npm -v`
 
-# Insatll package for compiling native extensions
-#npm install -g node-gyp
-
-# Install globally bower and gulp
-#npm install -g bower gulp
-
-echo "Ready to go"
-
+echo "--- Ready to go ---"
+chmod o+w /var/www/yii2template.lo.com/src/assets
 end=`date +%s`
 
 provisionTime=$((end - start))

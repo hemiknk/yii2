@@ -39,9 +39,9 @@ Vagrant.configure(2) do |config|
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
   # config.vm.synced_folder "../data", "/vagrant_data"
-  config.vm.synced_folder "./", "/var/www/site.dev/", id: "site.dev", type: "rsync",
-      group: 'vagrant', owner: 'vagrant', mount_options: ["dmode=775", "fmode=764"]
+  #config.vm.synced_folder "./", "/var/www/yii2template.lo.com/",  mount_options: ["dmode=775,fmode=664"]
 
+  config.vm.synced_folder "./", "/var/www/yii2template.lo.com/", id: "yii2template.lo.com"
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
