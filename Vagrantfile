@@ -41,7 +41,7 @@ Vagrant.configure(2) do |config|
   # config.vm.synced_folder "../data", "/vagrant_data"
   #config.vm.synced_folder "./", "/var/www/yii2template.lo.com/",  mount_options: ["dmode=775,fmode=664"]
 
-  config.vm.synced_folder "./", "/var/www/yii2template.lo.com/", id: "yii2template.lo.com"
+  config.vm.synced_folder "./src/", "/var/www/yii2template.lo.com/", id: "yii2template.lo.com", owner: "ubuntu", group: "ubuntu", mount_options: ["dmode=777,fmode=666"]
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:

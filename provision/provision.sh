@@ -2,7 +2,9 @@
 
 DIR="$( cd "$( dirname "$0" )" && pwd )"
 SITE_DOMAIN="yii2template.lo.com"
-PROVISION_DIR="/var/www/$SITE_DOMAIN"
+PROVISION_DIR="/vagrant"
+MYSQL_USER="root"
+MYSQL_PASSWORD="root"
 
 echo "--- Provision dir: $DIR ---"
 
@@ -29,12 +31,10 @@ apt-get update
 
 echo -e "--- Install MySQL and settings ---"
 
-debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
-debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
+debconf-set-selections <<< 'mysql-server mysql-server/root_password password '$MYSQL_USER
+debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password '$MYSQL_PASSWORD
 apt-get -y install mysql-server
 
-echo "--- Update mysql config ---"
-#cp -v "$PROVISION_DIR/provision/mysql/my.cnf" /etc/mysql/my.cnf
 echo "--- Restart mysql deamon ---"
 systemctl restart mysql
 
@@ -64,6 +64,7 @@ apt-get -q -y  -o Dpkg::Options::=--force-confnew  install \
     mc \
     links \
     tree \
+    php-mbstring \
 
 echo "--- Setup xdebug ---"
 pecl install xdebug >> /dev/null 2>&1
@@ -109,8 +110,12 @@ echo `nginx -v`
 echo `mysql --version`
 echo `php -v`
 
+echo "--- Create database. Import dump ---"
+mysqladmin -u$MYSQL_USER -p$MYSQL_PASSWORD create vagrant_yii2_template
+mysql -u$MYSQL_USER -p$MYSQL_PASSWORD vagrant_yii2_template < /vagrant/dump.sql
+
 echo "--- Ready to go ---"
-chmod o+w /var/www/yii2template.lo.com/src/assets
+
 end=`date +%s`
 
 provisionTime=$((end - start))
