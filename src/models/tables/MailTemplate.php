@@ -3,7 +3,10 @@
 namespace app\models\tables;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "mail_template".
@@ -15,9 +18,10 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $created_at
  * @property string $subject
  *
+ * @property User $user
  * @property Mailing[] $mailings
  */
-class MailTemplate extends \yii\db\ActiveRecord
+class MailTemplate extends ActiveRecord
 {
     /**
      * @inheritdoc
@@ -27,17 +31,35 @@ class MailTemplate extends \yii\db\ActiveRecord
         return 'mail_template';
     }
 
+    public function behaviors()
+    {
+        return [
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at'],
+                ],
+            ],
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+                'createdByAttribute' => 'user_id',
+                'updatedByAttribute' => false,
+            ],
+        ];
+    }
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['user_id', 'name', 'created_at'], 'required'],
+            [['name'], 'required'],
             [['user_id', 'created_at'], 'integer'],
             [['body'], 'string'],
             [['name'], 'string', 'max' => 250],
             [['subject'], 'string', 'max' => 255],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
     }
 
@@ -56,11 +78,12 @@ class MailTemplate extends \yii\db\ActiveRecord
         ];
     }
 
-    public function behaviors()
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
     {
-        return [
-            TimestampBehavior::className(),
-        ];
+        return $this->hasOne(User::className(), ['id' => 'user_id']);
     }
 
     /**
@@ -78,5 +101,19 @@ class MailTemplate extends \yii\db\ActiveRecord
     public static function find()
     {
         return new MailTemplateQuery(get_called_class());
+    }
+
+    /**
+     * Create array with templates name
+     *
+     * @return array
+     */
+    public static function getTemplatesList()
+    {
+        $parents = self::find()
+            ->select(['id', 'name'])
+            ->distinct(true)
+            ->all();
+        return ArrayHelper::map($parents, 'id', 'name');
     }
 }

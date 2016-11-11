@@ -10,11 +10,9 @@ $this->params['breadcrumbs'][] = $this->title;
     'items' => [
         ['label' => \Yii::t('mail', 'E-mail templates'), 'url' => ['mail-template/list']],
         ['label' => \Yii::t('mail', 'Add template'), 'url' => ['mail-template/create']],
-        ['label' => \Yii::t('mail', 'View template'), 'url' => ['mail-template/view']],
 
         ['label' => \Yii::t('mail', 'View mailings'), 'url' => ['mailing/list']],
         ['label' => \Yii::t('mail', 'Create Mailing'), 'url' => ['mailing/create']],
-        ['label' => \Yii::t('mail', 'View mailing'), 'url' => ['mailing/view']],
 
         ['label' => \Yii::t('mail', 'Send test e-mail'), 'url' => ['mail/send']],
     ],

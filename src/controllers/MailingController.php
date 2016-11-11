@@ -2,9 +2,14 @@
 
 namespace app\controllers;
 
+use app\models\forms\MailingForm;
+use app\models\search\UserSearch;
+use app\models\tables\MailTemplateSearch;
+use app\models\tables\User;
 use Yii;
 use app\models\tables\Mailing;
 use app\models\tables\MailingSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -26,11 +31,27 @@ class MailingController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['create', 'update', 'delete'],
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['list', 'view'],
+                        'roles' => ['?', '@']
+                    ],
+                ]
+            ]
         ];
     }
 
     /**
      * Lists all Mailing models.
+     *
      * @return mixed
      */
     public function actionList()
@@ -46,6 +67,7 @@ class MailingController extends Controller
 
     /**
      * Displays a single Mailing model.
+     *
      * @param integer $id
      * @return mixed
      */
@@ -59,24 +81,31 @@ class MailingController extends Controller
     /**
      * Creates a new Mailing model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
      * @return mixed
      */
     public function actionCreate()
     {
-        $model = new Mailing();
+        $mailing = new MailingForm();
+        $userSearch = new UserSearch();
+        $userDataProvider = $userSearch->search(Yii::$app->request->queryParams);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
+        $mailSearch = new MailTemplateSearch();
+        $mailDataProvider = $mailSearch->search(Yii::$app->request->queryParams);
+
+        if ($mailing->load(Yii::$app->request->post()) && $mailing->validate() && $mailing->save()) {
+            return $this->redirect(['list']);
         }
+        return $this->render(
+            'create',
+            compact('mailing', 'userSearch', 'userDataProvider', 'mailSearch', 'mailDataProvider')
+        );
     }
 
     /**
      * Updates an existing Mailing model.
      * If update is successful, the browser will be redirected to the 'view' page.
+     *
      * @param integer $id
      * @return mixed
      */
@@ -86,16 +115,14 @@ class MailingController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+        return $this->render('update', ['model' => $model,]);
     }
 
     /**
      * Deletes an existing Mailing model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
      * @param integer $id
      * @return mixed
      */
@@ -103,12 +130,13 @@ class MailingController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['list']);
     }
 
     /**
      * Finds the Mailing model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param integer $id
      * @return Mailing the loaded model
      * @throws NotFoundHttpException if the model cannot be found

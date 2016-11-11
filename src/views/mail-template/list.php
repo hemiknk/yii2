@@ -25,14 +25,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
-
-            'id',
-            'user_id',
-            'body',
+            [
+                "class" => yii\grid\DataColumn::className(),
+                'label' => \Yii::t('mail', 'Author'),
+                "attribute" => "user_id",
+                "value" => function($model){
+                    return $model->user->username;
+                },
+                "format" => "raw",
+            ],
             'name',
-            'created_at',
             'subject:ntext',
-
+            'created_at:datetime',
             ['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>

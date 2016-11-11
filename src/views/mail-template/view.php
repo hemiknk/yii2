@@ -7,7 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\tables\MailTemplate */
 
 $this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => Yii::t('app', 'Mail Templates'), 'url' => ['index']];
+$this->params['breadcrumbs'][] = ['label' => Yii::t('mail', 'Mail Templates'), 'url' => ['list']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="mail-template-view">
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'user_id',
             'body',
             'name',
-            'created',
+            'created_at:datetime',
             'subject:ntext',
         ],
     ]) ?>

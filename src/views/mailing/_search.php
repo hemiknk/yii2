@@ -1,5 +1,6 @@
 <?php
 
+use app\models\tables\MailTemplate;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -19,15 +20,15 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'user_id') ?>
 
-    <?= $form->field($model, 'mail_template_id') ?>
+    <?= $form->field($model, 'mail_template_id')->dropDownList(MailTemplate::getTemplatesList()) ?>
 
     <?= $form->field($model, 'status') ?>
 
     <?= $form->field($model, 'placeholders') ?>
 
-    <?php // echo $form->field($model, 'created') ?>
+    <?php  echo $form->field($model, 'created_at') ?>
 
-    <?php // echo $form->field($model, 'date_send') ?>
+    <?php  echo $form->field($model, 'date_send') ?>
 
     <div class="form-group">
         <?= Html::submitButton(Yii::t('mail', 'Search'), ['class' => 'btn btn-primary']) ?>

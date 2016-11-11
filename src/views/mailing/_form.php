@@ -1,5 +1,8 @@
 <?php
 
+use app\models\tables\Mailing;
+use app\models\tables\MailTemplate;
+use kartik\datetime\DateTimePicker;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
@@ -14,18 +17,28 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'user_id')->textInput() ?>
 
-    <?= $form->field($model, 'mail_template_id')->textInput() ?>
+    <?= $form->field($model, 'mail_template_id')->dropDownList(MailTemplate::getTemplatesList()) ?>
 
-    <?= $form->field($model, 'status')->textInput() ?>
+    <?= $form->field($model, 'status')->dropDownList([
+        Mailing::ACTIVE => \Yii::t('mail', 'Active'),
+        Mailing::INACTIVE => \Yii::t('mail', 'Not active'),
+    ], [
+        'prompt' => \Yii::t('mail', 'Choose status'),
+    ]) ?>
 
     <?= $form->field($model, 'placeholders')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'created')->textInput() ?>
-
-    <?= $form->field($model, 'date_send')->textInput() ?>
+    <?= $form->field($model, 'date_send')->widget(DateTimePicker::className(), [
+        'options' => ['placeholder' => \Yii::t('mail', 'Enter send time')],
+        'pluginOptions' => [
+            'autoclose' => true,
+            'startDate' => date("yy-mm-dd"),
+            'minDate' => false,
+        ],
+    ]); ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('mail', 'Create') : Yii::t('app', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('mail', 'Create') : Yii::t('mail', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

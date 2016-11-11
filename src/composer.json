@@ -18,7 +18,11 @@
         "yiisoft/yii2": "~2.0.5",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
-        "2amigos/yii2-ckeditor-widget": "^2.0"
+        "2amigos/yii2-ckeditor-widget": "^2.0",
+        "kartik-v/yii2-widget-datetimepicker": "*",
+        "drsdre/yii2-wizardwidget": "*",
+        "kartik-v/yii2-grid": "@dev",
+        "kartik-v/yii2-widgets": "3.4.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
@@ -27,7 +31,8 @@
 
         "codeception/base": "^2.2.3",
         "codeception/verify": "~0.3.1",
-        "codeception/specify": "~0.4.3"
+        "codeception/specify": "~0.4.3",
+        "amnah/yii2-user": "^5.0"
     },
     "config": {
         "process-timeout": 1800

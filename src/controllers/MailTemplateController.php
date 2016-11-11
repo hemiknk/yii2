@@ -5,6 +5,7 @@ namespace app\controllers;
 use Yii;
 use app\models\tables\MailTemplate;
 use app\models\tables\MailTemplateSearch;
+use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
@@ -26,6 +27,21 @@ class MailTemplateController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'access' => [
+                'class' => AccessControl::className(),
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'actions' => ['create', 'update', 'delete'],
+                        'roles' => ['@']
+                    ],
+                    [
+                        'allow' => true,
+                        'actions' => ['list', 'view'],
+                        'roles' => ['?', '@']
+                    ],
+                ]
+            ]
         ];
     }
 
@@ -64,7 +80,6 @@ class MailTemplateController extends Controller
     public function actionCreate()
     {
         $model = new MailTemplate();
-        $model->user_id = \Yii::$app->user->getId();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
@@ -103,7 +118,7 @@ class MailTemplateController extends Controller
     {
         $this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        return $this->redirect(['list']);
     }
 
     /**

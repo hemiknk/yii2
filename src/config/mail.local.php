@@ -5,7 +5,7 @@ return [
     // 'useFileTransport' to false and configure a transport
     // for the mailer to send real emails.
     'useFileTransport' => true,
-    /*'transport' => [
+/*    'transport' => [
         'class' => 'Swift_SmtpTransport',
         'host' => 'smtp.gmail.com',
         'username' => 'goodeveningproj@gmail.com',
