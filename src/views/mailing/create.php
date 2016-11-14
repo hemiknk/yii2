@@ -23,7 +23,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= Html::error($mailing, 'templateId'); ?>
     <?= Html::activeHiddenInput($mailing, 'templateId', ['id' => 'templateId']); ?>
 
-
     <?= Html::activeLabel($mailing, 'dateSend'); ?>
     <?= Html::error($mailing, 'dateSend'); ?>
     <?= Html::activeHiddenInput($mailing, 'dateSend', ['id' => 'dateSend']); ?>

@@ -3,6 +3,7 @@
 namespace app\models\forms;
 
 use app\models\tables\Mailing;
+use app\models\tables\MailTemplate;
 use Yii;
 use yii\base\Model;
 
@@ -27,7 +28,16 @@ class MailingForm extends Model
             [['usersId', 'templateId', 'dateSend'], 'required'],
             [['templateId', 'status'], 'integer'],
             [['placeholders'], 'string'],
-//            [['usersId'], 'usersExist'],
+            [['date_send'], 'safe'],
+            [
+                ['templateId'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => MailTemplate::className(),
+                'targetAttribute' => ['templateId' => 'id']
+            ],
+            [['placeholders'], 'string'],
+            [['usersId'], 'usersExist'],
         ];
     }
 
@@ -38,22 +48,24 @@ class MailingForm extends Model
         ];
     }
 
-    public function save()
+    public function usersExist($attribute, $params)
     {
-        $errors = '';
-        foreach (json_decode($this->usersId, true) as $userId) {
-            $mailing = $this->getMailing($userId);
-            if (!$mailing->validate()) {
-                $errors = $mailing->getErrors();
-                continue;
-            }
-            $mailing->save();
+        var_dump($attribute);
+        if ($this->$attribute) {
+            return true;
         }
-
-        return $errors;
+        return false;
     }
 
-    protected function getMailing($userId)
+    public function save()
+    {
+        foreach (json_decode($this->usersId, true) as $userId) {
+            $mailing = $this->getMailingForUser($userId);
+            $mailing->save();
+        }
+    }
+
+    protected function getMailingForUser($userId)
     {
         $mailing = new Mailing();
         $mailing->attributes = $this->attributes;
