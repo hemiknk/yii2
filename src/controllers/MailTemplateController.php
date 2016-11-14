@@ -4,7 +4,7 @@ namespace app\controllers;
 
 use Yii;
 use app\models\tables\MailTemplate;
-use app\models\tables\MailTemplateSearch;
+use app\models\search\MailTemplateSearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -47,6 +47,7 @@ class MailTemplateController extends Controller
 
     /**
      * Lists all MailTemplate models.
+     *
      * @return mixed
      */
     public function actionList()
@@ -62,6 +63,7 @@ class MailTemplateController extends Controller
 
     /**
      * Displays a single MailTemplate model.
+     *
      * @param integer $id
      * @return mixed
      */
@@ -75,6 +77,7 @@ class MailTemplateController extends Controller
     /**
      * Creates a new MailTemplate model.
      * If creation is successful, the browser will be redirected to the 'view' page.
+     *
      * @return mixed
      */
     public function actionCreate()
@@ -82,16 +85,17 @@ class MailTemplateController extends Controller
         $model = new MailTemplate();
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model,
-            ]);
         }
+        return $this->render('create', [
+            'model' => $model,
+        ]);
+
     }
 
     /**
      * Updates an existing MailTemplate model.
      * If update is successful, the browser will be redirected to the 'view' page.
+     *
      * @param integer $id
      * @return mixed
      */
@@ -101,16 +105,17 @@ class MailTemplateController extends Controller
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['view', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model,
-            ]);
         }
+        return $this->render('update', [
+            'model' => $model,
+        ]);
+
     }
 
     /**
      * Deletes an existing MailTemplate model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
+     *
      * @param integer $id
      * @return mixed
      */
@@ -124,6 +129,7 @@ class MailTemplateController extends Controller
     /**
      * Finds the MailTemplate model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
+     *
      * @param integer $id
      * @return MailTemplate the loaded model
      * @throws NotFoundHttpException if the model cannot be found
@@ -132,8 +138,8 @@ class MailTemplateController extends Controller
     {
         if (($model = MailTemplate::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+        throw new NotFoundHttpException('The requested page does not exist.');
+
     }
 }

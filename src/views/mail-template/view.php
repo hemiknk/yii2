@@ -7,6 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\tables\MailTemplate */
 
 $this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Mail Admin page', 'url' => ['admin/mail']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('mail', 'Mail Templates'), 'url' => ['list']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

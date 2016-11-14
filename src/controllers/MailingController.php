@@ -4,11 +4,10 @@ namespace app\controllers;
 
 use app\models\forms\MailingForm;
 use app\models\search\UserSearch;
-use app\models\tables\MailTemplateSearch;
-use app\models\tables\User;
+use app\models\search\MailTemplateSearch;
 use Yii;
 use app\models\tables\Mailing;
-use app\models\tables\MailingSearch;
+use app\models\search\MailingSearch;
 use yii\filters\AccessControl;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -145,8 +144,8 @@ class MailingController extends Controller
     {
         if (($model = Mailing::findOne($id)) !== null) {
             return $model;
-        } else {
-            throw new NotFoundHttpException('The requested page does not exist.');
         }
+        throw new NotFoundHttpException('The requested page does not exist.');
+
     }
 }

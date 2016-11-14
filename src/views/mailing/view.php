@@ -7,6 +7,7 @@ use yii\widgets\DetailView;
 /* @var $model app\models\tables\Mailing */
 
 $this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Mail Admin page', 'url' => ['admin/mail']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('mail', 'Mailings'), 'url' => ['list']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

@@ -9,6 +9,7 @@ use yii\widgets\Pjax;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = Yii::t('mail', 'Mail Templates');
+$this->params['breadcrumbs'][] = ['label' => 'Mail Admin page', 'url' => ['admin/mail']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="mail-template-index">

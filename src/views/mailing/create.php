@@ -11,6 +11,7 @@ use yii\widgets\ActiveForm;
 /* @var $mailing app\models\tables\Mailing */
 
 $this->title = Yii::t('mail', 'Create Mailing');
+$this->params['breadcrumbs'][] = ['label' => 'Mail Admin page', 'url' => ['admin/mail']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('mail', 'Mailings'), 'url' => ['list']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -20,15 +21,15 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?php $form = ActiveForm::begin(['id' => 'mailingForm']); ?>
     <?= Html::activeLabel($mailing, 'templateId'); ?>
-    <?= Html::error($mailing, 'templateId'); ?>
+    <?= Html::error($mailing, 'templateId', ['style' => 'color: red;', 'class' => 'has-error']); ?>
     <?= Html::activeHiddenInput($mailing, 'templateId', ['id' => 'templateId']); ?>
 
     <?= Html::activeLabel($mailing, 'dateSend'); ?>
-    <?= Html::error($mailing, 'dateSend'); ?>
+    <?= Html::error($mailing, 'dateSend', ['style' => 'color: red;', 'class' => 'has-error']); ?>
     <?= Html::activeHiddenInput($mailing, 'dateSend', ['id' => 'dateSend']); ?>
 
     <?= Html::activeLabel($mailing, 'usersId'); ?>
-    <?= Html::error($mailing, 'usersId'); ?>
+    <?= Html::error($mailing, 'usersId', ['style' => 'color: red;', 'class' => 'has-error']); ?>
     <?= Html::activeHiddenInput($mailing, 'usersId', ['id' => 'usersId']); ?>
 
     <?php ActiveForm::end(); ?>

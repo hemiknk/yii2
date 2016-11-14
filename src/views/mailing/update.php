@@ -8,6 +8,7 @@ use yii\helpers\Html;
 $this->title = Yii::t('mail', 'Update {modelClass}: ', [
     'modelClass' => 'Mailing',
 ]) . $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Mail Admin page', 'url' => ['admin/mail']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('mail', 'Mailings'), 'url' => ['list']];
 $this->params['breadcrumbs'][] = ['label' => $model->id, 'url' => ['view', 'id' => $model->id]];
 $this->params['breadcrumbs'][] = Yii::t('mail', 'Update');

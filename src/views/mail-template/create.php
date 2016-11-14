@@ -6,6 +6,7 @@ use yii\helpers\Html;
 /* @var $model app\models\tables\MailTemplate */
 
 $this->title = Yii::t('mail', 'Create Mail Template');
+$this->params['breadcrumbs'][] = ['label' => 'Mail Admin page', 'url' => ['admin/mail']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('mail', 'Mail Templates'), 'url' => ['list']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

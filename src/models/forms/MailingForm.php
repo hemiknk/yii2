@@ -4,19 +4,36 @@ namespace app\models\forms;
 
 use app\models\tables\Mailing;
 use app\models\tables\MailTemplate;
+use app\models\tables\User;
 use Yii;
 use yii\base\Model;
+use yii\validators\ExistValidator;
 
 class MailingForm extends Model
 {
+    /**
+     * @var string json with users
+     */
     public $usersId = '';
 
+    /**
+     * @var integer contains mail template id
+     */
     public $templateId = null;
 
+    /**
+     * @var string placeholders for template
+     */
     public $placeholders = null;
 
+    /**
+     * @var integer status of mailing for current user
+     */
     public $status = null;
 
+    /**
+     * @var string datetime for sending email
+     */
     public $dateSend = null;
 
     /**
@@ -41,6 +58,9 @@ class MailingForm extends Model
         ];
     }
 
+    /**
+     * @inheritdoc
+     */
     public function attributeLabels()
     {
         return [
@@ -48,23 +68,53 @@ class MailingForm extends Model
         ];
     }
 
+    /**
+     * Validator. If all users exist in system return true
+     *
+     * @param $attribute
+     * @param $params
+     * @return bool
+     */
     public function usersExist($attribute, $params)
     {
-        var_dump($attribute);
-        if ($this->$attribute) {
-            return true;
+        $usersId = json_decode($this->$attribute, true);
+        if (count($usersId) <= 0) {
+            $this->addError($attribute, 'Please, choose users');
+            return false;
         }
-        return false;
+        $validator = new ExistValidator([
+            'allowArray' => true,
+            'skipOnError' => true,
+            'targetClass' => User::className(),
+            'targetAttribute' => 'id'
+        ]);
+        if (!$validator->validate($usersId)) {
+            $this->addError($attribute, 'Not add users exists');
+            return false;
+        }
+        return true;
     }
 
+    /**
+     * Save mailing info for users
+     *
+     * @return bool
+     */
     public function save()
     {
         foreach (json_decode($this->usersId, true) as $userId) {
             $mailing = $this->getMailingForUser($userId);
             $mailing->save();
         }
+        return true;
     }
 
+    /**
+     * Return Mailing object by user id
+     *
+     * @param $userId
+     * @return Mailing
+     */
     protected function getMailingForUser($userId)
     {
         $mailing = new Mailing();
@@ -76,5 +126,4 @@ class MailingForm extends Model
         $mailing->placeholders = '';
         return $mailing;
     }
-
 }

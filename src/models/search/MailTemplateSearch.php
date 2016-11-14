@@ -1,16 +1,16 @@
 <?php
 
-namespace app\models\tables;
+namespace app\models\search;
 
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use app\models\tables\Mailing;
+use app\models\tables\MailTemplate;
 
 /**
- * MailingSearch represents the model behind the search form about `app\models\tables\Mailing`.
+ * MailTemplateSearch represents the model behind the search form about `app\models\tables\MailTemplate`.
  */
-class MailingSearch extends Mailing
+class MailTemplateSearch extends MailTemplate
 {
     /**
      * @inheritdoc
@@ -18,8 +18,8 @@ class MailingSearch extends Mailing
     public function rules()
     {
         return [
-            [['id', 'user_id', 'mail_template_id', 'status'], 'integer'],
-            [['placeholders', 'created_at', 'date_send'], 'safe'],
+            [['id', 'user_id'], 'integer'],
+            [['body', 'name', 'created_at', 'subject'], 'safe'],
         ];
     }
 
@@ -41,7 +41,7 @@ class MailingSearch extends Mailing
      */
     public function search($params)
     {
-        $query = Mailing::find();
+        $query = MailTemplate::find();
 
         // add conditions that should always apply here
 
@@ -61,13 +61,12 @@ class MailingSearch extends Mailing
         $query->andFilterWhere([
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'mail_template_id' => $this->mail_template_id,
-            'status' => $this->status,
             'created_at' => $this->created_at,
-            'date_send' => $this->date_send,
         ]);
 
-        $query->andFilterWhere(['like', 'placeholders', $this->placeholders]);
+        $query->andFilterWhere(['like', 'body', $this->body])
+            ->andFilterWhere(['like', 'name', $this->name])
+            ->andFilterWhere(['like', 'subject', $this->subject]);
 
         return $dataProvider;
     }
