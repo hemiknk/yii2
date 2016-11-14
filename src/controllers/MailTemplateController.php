@@ -136,10 +136,11 @@ class MailTemplateController extends Controller
      */
     protected function findModel($id)
     {
-        if (($model = MailTemplate::findOne($id)) !== null) {
-            return $model;
+        $model = MailTemplate::findOne($id);
+        if (null === $model) {
+            throw new NotFoundHttpException('The requested page does not exist.');
         }
-        throw new NotFoundHttpException('The requested page does not exist.');
+        return $model;
 
     }
 }

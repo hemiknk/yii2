@@ -11,6 +11,13 @@ use yii\validators\ExistValidator;
 
 class MailingForm extends Model
 {
+
+    const PLACEHOLDERS = [
+        'user',
+        'location',
+        'date'
+    ];
+
     /**
      * @var string json with users
      */
@@ -55,6 +62,7 @@ class MailingForm extends Model
             ],
             [['placeholders'], 'string'],
             [['usersId'], 'usersExist'],
+            ['placeholders', 'isPlaceholders'],
         ];
     }
 
@@ -96,6 +104,26 @@ class MailingForm extends Model
     }
 
     /**
+     * Validator return true if placeholder allowed
+     *
+     * @param $attribute
+     * @param $params
+     * @return bool
+     */
+    public function isPlaceholders($attribute, $params)
+    {
+        $placeholders = json_decode($this->$attribute, true);
+
+        foreach ($placeholders as $placeholderName => $placeholderVal) {
+            if (!in_array($placeholderName, self::PLACEHOLDERS)) {
+                $this->addError($attribute, "Unknown placeholder $placeholderName");
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Save mailing info for users
      *
      * @return bool
@@ -123,7 +151,7 @@ class MailingForm extends Model
         $mailing->mail_template_id = $this->templateId;
         $mailing->date_send = $this->dateSend;
         $mailing->status = Mailing::ACTIVE;
-        $mailing->placeholders = '';
+        $mailing->placeholders = $this->placeholders ?: '';
         return $mailing;
     }
 }

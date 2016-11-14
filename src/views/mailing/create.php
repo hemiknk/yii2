@@ -32,6 +32,10 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= Html::error($mailing, 'usersId', ['style' => 'color: red;', 'class' => 'has-error']); ?>
     <?= Html::activeHiddenInput($mailing, 'usersId', ['id' => 'usersId']); ?>
 
+    <?= Html::activeLabel($mailing, 'placeholders'); ?>
+    <?= Html::error($mailing, 'placeholders', ['style' => 'color: red;', 'class' => 'has-error']); ?>
+    <?= Html::activeHiddenInput($mailing, 'placeholders', ['id' => 'placeholders']); ?>
+
     <?php ActiveForm::end(); ?>
 
     <?php
@@ -127,11 +131,18 @@ $this->params['breadcrumbs'][] = $this->title;
         'name' => 'widgetDateSend',
         'id' => 'widgetDateSend',
         'pluginOptions' => [
-            'format' => 'yyyy-m-d H:i:s',
+            'format' => 'yyyy-m-d H:i',
             'startDate' => date('Y-m-d'),
             'todayHighlight' => true
         ]
     ]);
+    $templatePlaceholders = Html::label('User name') . '<br>';
+    $templatePlaceholders .= Html::input('text', 'user', '', ['class' => 'form-control']) . '<br>';
+    $templatePlaceholders .= Html::label('Location') . '<br>';
+    $templatePlaceholders .= Html::input('text', 'location', '', ['class' => 'form-control']) . '<br>';
+    $templatePlaceholders .= Html::label('Date') . '<br>';
+    $templatePlaceholders .= Html::input('text', 'date', '', ['class' => 'form-control']) . '<br>';
+    $templatePlaceholders = "<div class='placeholders'>$templatePlaceholders </div>";
 
     $wizardConfig = [
         'id' => 'stepwizard',
@@ -158,7 +169,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'date' => [
                 'title' => 'Date',
                 'icon' => 'glyphicon glyphicon-calendar',
-                'content' => $selectData,
+                'content' => $selectData . $templatePlaceholders,
                 'buttons' => [
                     'next' => [
                         'title' => 'Next',

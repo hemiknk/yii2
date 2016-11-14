@@ -7,3 +7,5 @@ provision.log
 *.swp
 ubuntu-xenial-16.04-cloudimg-console.log
 /src/config/mail.local.php
+
+tests/_output/*
