@@ -22,7 +22,8 @@
         "kartik-v/yii2-widget-datetimepicker": "*",
         "drsdre/yii2-wizardwidget": "*",
         "kartik-v/yii2-grid": "@dev",
-        "kartik-v/yii2-widgets": "3.4.0"
+        "kartik-v/yii2-widgets": "3.4.0",
+        "yiisoft/yii2-codeception": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

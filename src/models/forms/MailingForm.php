@@ -52,7 +52,7 @@ class MailingForm extends Model
             [['usersId', 'templateId', 'dateSend'], 'required'],
             [['templateId', 'status'], 'integer'],
             [['placeholders'], 'string'],
-            [['date_send'], 'safe'],
+            [['dateSend'], 'safe'],
             [
                 ['templateId'],
                 'exist',
@@ -97,7 +97,7 @@ class MailingForm extends Model
             'targetAttribute' => 'id'
         ]);
         if (!$validator->validate($usersId)) {
-            $this->addError($attribute, 'Not add users exists');
+            $this->addError($attribute, 'Not all users exists');
             return false;
         }
         return true;
@@ -133,6 +133,7 @@ class MailingForm extends Model
         foreach (json_decode($this->usersId, true) as $userId) {
             $mailing = $this->getMailingForUser($userId);
             $mailing->save();
+
         }
         return true;
     }

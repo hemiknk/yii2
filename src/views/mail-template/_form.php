@@ -11,7 +11,7 @@ use dosamigos\ckeditor\CKEditor;
 
 <div class="mail-template-form">
 
-    <?php $form = ActiveForm::begin(); ?>
+    <?php $form = ActiveForm::begin(['id' => 'mailTemplateForm']); ?>
 
     <?= $form->field($model, 'name')->textInput(['maxlength' => true]) ?>
 

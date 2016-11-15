@@ -15,11 +15,14 @@ return [
             'useFileTransport' => true,
         ],
         'urlManager' => [
-            'showScriptName' => true,
+            'enablePrettyUrl' => true,
+            'showScriptName' => false,
+            'rules' => [
+            ],
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
-        ],        
+            'class' => 'amnah\yii2\user\components\User',
+        ],
         'request' => [
             'cookieValidationKey' => 'test',
             'enableCsrfValidation' => false,
@@ -29,7 +32,25 @@ return [
                 'domain' => 'localhost',
             ],
             */
-        ],        
+        ],
+        'i18n' => [
+            'translations' => [
+                'mail' => [
+                    'class' => 'yii\i18n\PhpMessageSource',
+                    'basePath' => '@app/messages',
+                    'sourceLanguage' => 'en-US',
+                ],
+            ],
+        ],
+    ],
+    'modules' => [
+        'user' => [
+            'class' => 'amnah\yii2\user\Module',
+            // set custom module properties here ...
+        ],
+        'gridview' =>  [
+            'class' => '\kartik\grid\Module',
+        ]
     ],
     'params' => $params,
 ];
