@@ -23,7 +23,11 @@ use dosamigos\ckeditor\CKEditor;
     ]) ?>
 
     <div class="form-group">
-        <?= Html::submitButton($model->isNewRecord ? Yii::t('mail', 'Create') : Yii::t('mail', 'Update'), ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
+        <?= Html::submitButton($model->isNewRecord ? Yii::t('mail', 'Create') : Yii::t('mail', 'Update'),
+            [
+                'name' => 'template-button',
+                'class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary'
+            ]) ?>
     </div>
 
     <?php ActiveForm::end(); ?>

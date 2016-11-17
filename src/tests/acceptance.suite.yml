@@ -2,13 +2,11 @@ class_name: AcceptanceTester
 modules:
     enabled:
         - PhpBrowser:
-              url: http://yii2template.lo.com:8087/
+              url: http://localhost:8888/index-test.php
         - Db:
               dsn: 'mysql:host=localhost;dbname=vagrant_yii2_template_tests'
               user: 'root'
               password: ''
               dump: tests/_data/dump.sql
         - Yii2:
-            part: orm
-            entryScript: index-test.php
-            cleanup: false
+              part: ORM

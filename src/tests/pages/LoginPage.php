@@ -11,7 +11,7 @@ use app\models\LoginForm;
  */
 class LoginPage extends BasePage
 {
-    public $route = 'user/login';
+    public $route = '/user/login';
 
     /**
      * @param string $username

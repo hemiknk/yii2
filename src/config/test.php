@@ -15,8 +15,8 @@ return [
             'useFileTransport' => true,
         ],
         'urlManager' => [
-            'enablePrettyUrl' => true,
-            'showScriptName' => false,
+            'enablePrettyUrl' => false,
+            'showScriptName' => true,
             'rules' => [
             ],
         ],

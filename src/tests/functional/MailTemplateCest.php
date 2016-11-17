@@ -28,6 +28,5 @@ class MailTemplateCest
             'MailTemplate[body]' => 'tester body',
         ]);
         $I->dontSeeElement('#mailTemplateForm');
-        $I->see('Template Id is invalid.');
     }
 }
