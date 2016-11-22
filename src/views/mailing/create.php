@@ -14,6 +14,10 @@ $this->title = Yii::t('mail', 'Create Mailing');
 $this->params['breadcrumbs'][] = ['label' => 'Mail Admin page', 'url' => ['admin/mail']];
 $this->params['breadcrumbs'][] = ['label' => Yii::t('mail', 'Mailings'), 'url' => ['list']];
 $this->params['breadcrumbs'][] = $this->title;
+
+echo "PHP: " . PHP_VERSION . "<br>";
+echo "ICU: " . INTL_ICU_VERSION . "<br>";
+echo "ICU Data: " . INTL_ICU_DATA_VERSION . "<br>";
 ?>
 <div class="mailing-create">
 

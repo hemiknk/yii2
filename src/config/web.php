@@ -5,7 +5,7 @@ $params = require(__DIR__ . '/params.php');
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'language' => 'en-US',
+    'language' => 'ru_RU',//'en-US',
     'bootstrap' => ['log'],
     'components' => [
         'request' => [
@@ -40,10 +40,10 @@ $config = [
         ],
         'i18n' => [
             'translations' => [
-                'mail' => [
-                    'class' => 'yii\i18n\PhpMessageSource',
+                '*' => [
+                    'class' => 'yii\i18n\GettextMessageSource',
                     'basePath' => '@app/messages',
-                    'sourceLanguage' => 'en-US',
+                    'sourceLanguage' => 'en_US',
                 ],
             ],
         ],
@@ -70,7 +70,7 @@ if (YII_ENV_DEV) {
     $config['bootstrap'][] = 'gii';
     $config['modules']['gii'] = [
         'class' => 'yii\gii\Module',
-        'allowedIPs' => ['192.168.33.1', '127.0.0.1', 'localhost', '*'],
+        'allowedIPs' => ['192.168.33.1', '127.0.0.1', 'localhost'],
     ];
 }
 
