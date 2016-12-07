@@ -5,8 +5,7 @@ php:
 # Commands to be run before your environment runs.
 before_script:
   - composer self-update
-  - composer install
-script:
   - composer global require "fxp/composer-asset-plugin:^1.2.1"
   - composer install -d src
+script:
   - src/vendor/bin/codecept run unit -c src/codeception.yml 
