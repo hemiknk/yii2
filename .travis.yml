@@ -1,0 +1,11 @@
+language: php
+php:
+  - '7.0'
+
+# Commands to be run before your environment runs.
+before_script:
+  - composer self-update
+  - composer install
+script:
+  - composer install
+  - src/vendor/bin/codecept run unit -c src/codeception.yml 
