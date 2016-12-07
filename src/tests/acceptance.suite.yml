@@ -6,7 +6,7 @@ modules:
         - Db:
               dsn: 'mysql:host=localhost;dbname=vagrant_yii2_template_tests'
               user: 'root'
-              password: ''
+              password: 'root'
               dump: tests/_data/dump.sql
         - Yii2:
               part: ORM
